@@ -51,6 +51,17 @@ func TestGet(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestMatch(t *testing.T) {
+	// setup
+	_, tx := test.MockTx(t)
+
+	// success
+	notes, err := Match(tx, "ALPH")
+	assert.Len(t, notes, 1)
+	assertNote(t, notes[0], 1, 7200, "alpha")
+	assert.NoError(t, err)
+}
+
 func TestExists(t *testing.T) {
 	// setup
 	_, tx := test.MockTx(t)

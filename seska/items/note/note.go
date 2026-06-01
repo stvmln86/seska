@@ -36,13 +36,29 @@ func Create(tx *sqlx.Tx, name, body string) (*Note, error) {
 // Get returns an existing Note by name.
 func Get(tx *sqlx.Tx, name string) (*Note, error) {
 	note := &Note{Tx: tx}
-	code := "select * from Notes where name=? and hash=? limit 1"
-	name, hash := neat.Name(name)
-	if err := tx.Get(note, code, name, hash); err != nil {
+	code := "select * from Notes where name=? limit 1"
+	name, _ = neat.Name(name)
+	if err := tx.Get(note, code, name); err != nil {
 		return nil, err
 	}
 
 	return note, nil
+}
+
+// Match returns all existing Notes with names containing a string.
+func Match(tx *sqlx.Tx, text string) ([]*Note, error) {
+	var notes []*Note
+	text = "%" + text + "%"
+	code := "select * from Notes where name like ?"
+	if err := tx.Select(&notes, code, text); err != nil {
+		return nil, err
+	}
+
+	for i := range notes {
+		notes[i].Tx = tx
+	}
+
+	return notes, nil
 }
 
 // Exists returns true if the Note exists.
