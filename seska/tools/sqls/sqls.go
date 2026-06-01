@@ -15,7 +15,7 @@ const Schema = `
 		id   integer primary key,
 		init integer not null default (unixepoch()),
 		name text    not null,
-		hash text    not null check (length(hash) = 64),
+		hash text    not null check (length(hash) = 43),
 
 		unique (name)
 	) strict;
@@ -25,7 +25,7 @@ const Schema = `
 		init integer not null default (unixepoch()),
 		note integer not null references Notes(id) on delete restrict,
 		body text    not null,
-		hash text    not null check (length(hash) = 64),
+		hash text    not null check (length(hash) = 43),
 
 		unique (note, hash)
 	) strict;

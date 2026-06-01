@@ -3,7 +3,7 @@ package neat
 
 import (
 	"crypto/sha256"
-	"fmt"
+	"encoding/base64"
 	"strings"
 )
 
@@ -13,10 +13,10 @@ func Body(body string) (string, string) {
 	return body, Hash(body)
 }
 
-// Hash returns a SHA256 Hash of a string.
+// Hash returns a base64-encoded SHA256 hash of a string.
 func Hash(text string) string {
 	hash := sha256.Sum256([]byte(text))
-	return fmt.Sprintf("%x", hash)
+	return base64.RawURLEncoding.EncodeToString(hash[:])
 }
 
 // Name returns a lowercase whitespace-trimmed name string and its hash.

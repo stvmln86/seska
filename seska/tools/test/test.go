@@ -10,7 +10,11 @@ import (
 )
 
 // mockData is additional database data for unit testing.
-const mockData = ``
+const mockData = `
+	insert into Notes (init, name, hash) values
+		(unixepoch()-3600, 'alpha', '8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8'),
+		(unixepoch(),      'bravo', 'f144a6907dc4284d1f9fe6a7d9b9ff53c02c1d07ba68f24d413d7ff7f757a782');
+`
 
 // MockDB returns an in-memory database populated with mock data.
 func MockDB(t *testing.T) *sqlx.DB {
