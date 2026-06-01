@@ -11,3 +11,10 @@ func TestMockDB(t *testing.T) {
 	db := MockDB(t)
 	assert.NotNil(t, db)
 }
+
+func TestMockTx(t *testing.T) {
+	// success
+	db, tx := MockTx(t)
+	assert.NotNil(t, db)
+	assert.NotNil(t, tx)
+}

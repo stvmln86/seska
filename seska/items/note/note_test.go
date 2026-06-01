@@ -11,8 +11,7 @@ import (
 
 func TestCreate(t *testing.T) {
 	// setup
-	db := test.MockDB(t)
-	tx, _ := db.Beginx()
+	_, tx := test.MockTx(t)
 
 	// success
 	note, err := Create(tx, "name", "body")
@@ -30,8 +29,7 @@ func TestCreate(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	// setup
-	db := test.MockDB(t)
-	tx, _ := db.Beginx()
+	_, tx := test.MockTx(t)
 
 	// success
 	note, err := Get(tx, "alpha")
@@ -54,8 +52,7 @@ func TestGet(t *testing.T) {
 
 func TestExists(t *testing.T) {
 	// setup
-	db := test.MockDB(t)
-	tx, _ := db.Beginx()
+	_, tx := test.MockTx(t)
 	note, _ := Get(tx, "alpha")
 
 	// success - true

@@ -6,6 +6,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/stretchr/testify/require"
 	"github.com/stvmln86/seska/seska/tools/sqls"
 )
 
@@ -31,4 +32,12 @@ func MockDB(t *testing.T) *sqlx.DB {
 	t.Helper()
 	t.Cleanup(func() { db.Close() })
 	return db
+}
+
+// MockTx returns a mocked database and transaction.
+func MockTx(t *testing.T) (*sqlx.DB, *sqlx.Tx) {
+	db := MockDB(t)
+	tx, err := db.Beginx()
+	require.NoError(t, err)
+	return db, tx
 }
