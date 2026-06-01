@@ -72,3 +72,14 @@ func TestExists(t *testing.T) {
 	assert.False(t, okay)
 	assert.NoError(t, err)
 }
+
+func TestLatest(t *testing.T) {
+	// setup
+	_, tx := test.MockTx(t)
+	note, _ := Get(tx, "alpha")
+
+	// success
+	page, err := note.Latest()
+	assert.Equal(t, "Alpha two.", page.Body)
+	assert.NoError(t, err)
+}

@@ -70,3 +70,8 @@ func (n *Note) Exists() (bool, error) {
 
 	return okay, nil
 }
+
+// Latest returns the Note's latest Page.
+func (n *Note) Latest() (*page.Page, error) {
+	return page.Latest(n.Tx, n.ID)
+}

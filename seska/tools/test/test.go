@@ -14,8 +14,8 @@ import (
 // mockData is additional database data for unit testing.
 const mockData = `
 	insert into Notes (init, name, hash) values
-		(unixepoch()-7200, 'alpha',  'jtP2rWhblZ6tcCJRjhr3bNgW-OjsfM3aHtQBjo8iI_g'),
-		(unixepoch()-3600, 'bravo',  '8USmkH3EKE0fn-an2bn_U8AsHQe6aPJNQT1_9_dXp4I');
+		(unixepoch()-7200, 'alpha', 'jtP2rWhblZ6tcCJRjhr3bNgW-OjsfM3aHtQBjo8iI_g'),
+		(unixepoch()-3600, 'bravo', '8USmkH3EKE0fn-an2bn_U8AsHQe6aPJNQT1_9_dXp4I');
 
 	insert into Pages (init, note, body, hash) values
 		(unixepoch()-7200, 1, 'Alpha one.', '2uX0Ji_QreTPsV3-XPXWwJgR7eA_eC8NFR_kF5z4klU'),
