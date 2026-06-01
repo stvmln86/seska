@@ -8,12 +8,15 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestPragma(t *testing.T) {
-	// setup
-	db := sqlx.MustConnect("sqlite3", ":memory:")
-
+func TestParams(t *testing.T) {
 	// success
-	_, err := db.Exec(Pragma)
+	db := sqlx.MustConnect("sqlite3", ":memory:"+Params)
+	assert.NotNil(t, db)
+
+	// confirm - parameters were executed
+	var okay bool
+	err := db.Get(&okay, "pragma foreign_keys")
+	assert.True(t, okay)
 	assert.NoError(t, err)
 }
 

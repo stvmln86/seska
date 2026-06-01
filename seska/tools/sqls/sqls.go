@@ -1,13 +1,8 @@
 // Package sqls implements SQLite query constants.
 package sqls
 
-// Pragma is the default always-on database pragma.
-const Pragma = `
-	pragma encoding     = 'utf-8';
-	pragma foreign_keys = on;
-	pragma journal_mode = wal;
-	pragma synchronous  = full;
-`
+// Params is the default always-on database DSN connection string parameters.
+const Params = "?_foreign_keys=on&_journal_mode=wal&_synchronous=full"
 
 // Schema is the default first-run database schema.
 const Schema = `

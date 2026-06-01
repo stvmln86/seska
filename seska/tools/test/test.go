@@ -7,6 +7,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/stretchr/testify/require"
+	"github.com/stvmln86/seska/seska/tools/dbse"
 	"github.com/stvmln86/seska/seska/tools/sqls"
 )
 
@@ -24,12 +25,12 @@ const mockData = `
 
 // MockDB returns an in-memory database populated with mock data.
 func MockDB(t *testing.T) *sqlx.DB {
-	db := sqlx.MustConnect("sqlite3", ":memory:")
-	db.SetMaxIdleConns(1)
-	db.SetMaxOpenConns(1)
-	db.MustExec(sqls.Pragma + sqls.Schema + mockData)
+	db, err := dbse.Open(":memory:")
+	require.NoError(t, err)
 
-	t.Helper()
+	_, err = db.Exec(sqls.Schema + mockData)
+	require.NoError(t, err)
+
 	t.Cleanup(func() { db.Close() })
 	return db
 }
