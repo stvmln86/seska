@@ -8,7 +8,7 @@ import (
 
 // Page is a single recorded version of a Note.
 type Page struct {
-	DB   *sqlx.DB `db:"-"`
+	Tx   *sqlx.Tx `db:"-"`
 	ID   int64    `db:"id"`
 	Init int64    `db:"init"`
 	Note int64    `db:"note"`
@@ -17,11 +17,11 @@ type Page struct {
 }
 
 // Create creates and returns a new Page.
-func Create(db *sqlx.DB, note int64, body string) (*Page, error) {
-	page := &Page{DB: db}
+func Create(tx *sqlx.Tx, note int64, body string) (*Page, error) {
+	page := &Page{Tx: tx}
 	code := "insert into Pages (note, body, hash) values (?, ?, ?) returning *"
 	body, hash := neat.Body(body)
-	if err := db.Get(page, code, note, body, hash); err != nil {
+	if err := tx.Get(page, code, note, body, hash); err != nil {
 		return nil, err
 	}
 
@@ -29,10 +29,10 @@ func Create(db *sqlx.DB, note int64, body string) (*Page, error) {
 }
 
 // Latest returns a Note's latest Page.
-func Latest(db *sqlx.DB, note int64) (*Page, error) {
-	page := &Page{DB: db}
+func Latest(tx *sqlx.Tx, note int64) (*Page, error) {
+	page := &Page{Tx: tx}
 	code := "select * from Pages where note=? order by id desc limit 1"
-	if err := db.Get(page, code, note); err != nil {
+	if err := tx.Get(page, code, note); err != nil {
 		return nil, err
 	}
 
@@ -43,7 +43,7 @@ func Latest(db *sqlx.DB, note int64) (*Page, error) {
 func (p *Page) Exists() (bool, error) {
 	var okay bool
 	code := "select exists (select 1 from Pages where id=?)"
-	if err := p.DB.Get(&okay, code, p.ID); err != nil {
+	if err := p.Tx.Get(&okay, code, p.ID); err != nil {
 		return false, err
 	}
 
