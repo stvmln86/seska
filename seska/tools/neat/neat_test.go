@@ -19,6 +19,12 @@ func TestHash(t *testing.T) {
 	assert.Equal(t, "mC2ePrmW9VnmM_TRlN7zdh2Qn1o7ZH0ahR_q1nwyydE", hash)
 }
 
+func TestLike(t *testing.T) {
+	// success
+	like := Like(`a%b_c\d`)
+	assert.Equal(t, `%a\%b\_c\\d%`, like)
+}
+
 func TestName(t *testing.T) {
 	// success
 	name, hash := Name("\tNAME\n")

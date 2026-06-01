@@ -19,6 +19,12 @@ func Hash(text string) string {
 	return base64.RawURLEncoding.EncodeToString(hash[:])
 }
 
+// Like returns a SQLite "LIKE" pattern with escaped wildcard characters.
+func Like(text string) string {
+	esca := strings.NewReplacer(`\`, `\\`, `%`, `\%`, `_`, `\_`)
+	return "%" + esca.Replace(text) + "%"
+}
+
 // Name returns a lowercase whitespace-trimmed name string and its hash.
 func Name(name string) (string, string) {
 	name = strings.TrimSpace(name)

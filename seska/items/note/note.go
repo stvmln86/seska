@@ -47,9 +47,9 @@ func Get(tx *sqlx.Tx, name string) (*Note, error) {
 // Match returns all existing Notes with names containing a string.
 func Match(tx *sqlx.Tx, text string) ([]*Note, error) {
 	var notes []*Note
-	text = "%" + text + "%"
-	code := "select * from Notes where name like ?"
-	if err := tx.Select(&notes, code, text); err != nil {
+	like := neat.Like(text)
+	code := "select * from Notes where name like ? escape '\\'"
+	if err := tx.Select(&notes, code, like); err != nil {
 		return nil, err
 	}
 
