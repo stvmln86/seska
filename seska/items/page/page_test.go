@@ -5,8 +5,18 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stvmln86/seska/seska/tools/neat"
 	"github.com/stvmln86/seska/seska/tools/test"
 )
+
+func assertPage(t *testing.T, page *Page, p_id, secs, note int64, body string) {
+	assert.NotNil(t, page.Tx)
+	assert.Equal(t, p_id, page.ID)
+	assert.InDelta(t, time.Now().Unix()-secs, page.Init, 1.0)
+	assert.Equal(t, note, page.Note)
+	assert.Equal(t, body, page.Body)
+	assert.Equal(t, neat.Hash(body), page.Hash)
+}
 
 func TestCreate(t *testing.T) {
 	// setup
@@ -14,12 +24,7 @@ func TestCreate(t *testing.T) {
 
 	// success
 	page, err := Create(tx, 1, "body")
-	assert.Equal(t, tx, page.Tx)
-	assert.Equal(t, int64(4), page.ID)
-	test.AssertInit(t, page.Init, 0)
-	assert.Equal(t, int64(1), page.Note)
-	assert.Equal(t, "body", page.Body)
-	assert.Equal(t, "Iw2DWNyOiJC0xY3utikS7i8gNXrpKlzIYbmOaP4xrLU", page.Hash)
+	assertPage(t, page, 4, 0, 1, "body")
 	assert.NoError(t, err)
 
 	// confirm - transaction
@@ -33,12 +38,7 @@ func TestLatest(t *testing.T) {
 
 	// success
 	page, err := Latest(tx, 1)
-	assert.Equal(t, tx, page.Tx)
-	assert.Equal(t, int64(2), page.ID)
-	test.AssertInit(t, page.Init, 90*time.Minute)
-	assert.Equal(t, int64(1), page.Note)
-	assert.Equal(t, "Alpha two.", page.Body)
-	assert.Equal(t, "eF1U-1JjWcek5mfcB9IsZCXC8SHws7bZrPWJ7YeVSiA", page.Hash)
+	assertPage(t, page, 2, 5400, 1, "Alpha two.")
 	assert.NoError(t, err)
 
 	// confirm - transaction

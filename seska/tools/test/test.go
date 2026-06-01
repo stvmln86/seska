@@ -3,11 +3,9 @@ package test
 
 import (
 	"testing"
-	"time"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/stvmln86/seska/seska/tools/sqls"
 )
@@ -23,12 +21,6 @@ const mockData = `
 		(unixepoch()-5400, 1, 'Alpha two.', 'eF1U-1JjWcek5mfcB9IsZCXC8SHws7bZrPWJ7YeVSiA'),
 		(unixepoch()-3600, 2, 'Bravo one.', 'fRI-7CujV00Kae22wjPk0E2vUbWmCk_53skTuPzPqVQ');
 `
-
-// AssertInit asserts a Unix UTC integer is a duration behind now.
-func AssertInit(t *testing.T, init int64, dura time.Duration) {
-	dest := time.Now().Add(-dura).Unix()
-	assert.InDelta(t, dest, init, 1.0)
-}
 
 // MockDB returns an in-memory database populated with mock data.
 func MockDB(t *testing.T) *sqlx.DB {

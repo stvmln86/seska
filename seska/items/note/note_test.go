@@ -6,8 +6,17 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stvmln86/seska/seska/tools/neat"
 	"github.com/stvmln86/seska/seska/tools/test"
 )
+
+func assertNote(t *testing.T, note *Note, n_id, secs int64, name string) {
+	assert.NotNil(t, note.Tx)
+	assert.Equal(t, n_id, note.ID)
+	assert.InDelta(t, time.Now().Unix()-secs, note.Init, 1.0)
+	assert.Equal(t, name, note.Name)
+	assert.Equal(t, neat.Hash(name), note.Hash)
+}
 
 func TestCreate(t *testing.T) {
 	// setup
@@ -15,11 +24,7 @@ func TestCreate(t *testing.T) {
 
 	// success
 	note, err := Create(tx, "name", "body")
-	assert.Equal(t, tx, note.Tx)
-	assert.Equal(t, int64(3), note.ID)
-	test.AssertInit(t, note.Init, 0)
-	assert.Equal(t, "name", note.Name)
-	assert.Equal(t, "gqNTf_Dbzn7sNdae3DoYnubxfYLzU6VT-aqWywvjzok", note.Hash)
+	assertNote(t, note, 3, 0, "name")
 	assert.NoError(t, err)
 
 	// confirm - transaction
@@ -33,11 +38,7 @@ func TestGet(t *testing.T) {
 
 	// success
 	note, err := Get(tx, "alpha")
-	assert.Equal(t, tx, note.Tx)
-	assert.Equal(t, int64(1), note.ID)
-	test.AssertInit(t, note.Init, 2*time.Hour)
-	assert.Equal(t, "alpha", note.Name)
-	assert.Equal(t, "jtP2rWhblZ6tcCJRjhr3bNgW-OjsfM3aHtQBjo8iI_g", note.Hash)
+	assertNote(t, note, 1, 7200, "alpha")
 	assert.NoError(t, err)
 
 	// failure - note does not exist
