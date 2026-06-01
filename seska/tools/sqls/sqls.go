@@ -30,13 +30,5 @@ const Schema = `
 		unique (note, hash)
 	) strict;
 
-	create table if not exists Prefs (
-		id   integer primary key,
-		name text    not null,
-		body text    not null,
-
-		unique (name)
-	) strict;
-
 	create index if not exists PageNotes on Pages(note);
 `
