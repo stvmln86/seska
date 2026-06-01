@@ -3,6 +3,7 @@ package note
 
 import (
 	"github.com/jmoiron/sqlx"
+	"github.com/stvmln86/seska/seska/items/page"
 	"github.com/stvmln86/seska/seska/tools/neat"
 )
 
@@ -24,9 +25,7 @@ func Create(tx *sqlx.Tx, name, body string) (*Note, error) {
 		return nil, err
 	}
 
-	code = "insert into Pages (note, body, hash) values (?, ?, ?)"
-	body, hash = neat.Body(body)
-	if _, err := tx.Exec(code, note.ID, body, hash); err != nil {
+	if _, err := page.Create(tx, note.ID, body); err != nil {
 		return nil, err
 	}
 
@@ -36,7 +35,7 @@ func Create(tx *sqlx.Tx, name, body string) (*Note, error) {
 // Get returns an existing Note by name.
 func Get(tx *sqlx.Tx, name string) (*Note, error) {
 	note := &Note{Tx: tx}
-	code := "select * from Notes where name=? limit 1"
+	code := "select * from Notes where name=?"
 	name, _ = neat.Name(name)
 	if err := tx.Get(note, code, name); err != nil {
 		return nil, err

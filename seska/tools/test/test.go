@@ -31,7 +31,9 @@ func MockDB(t *testing.T) *sqlx.DB {
 	_, err = db.Exec(sqls.Schema + mockData)
 	require.NoError(t, err)
 
-	t.Cleanup(func() { db.Close() })
+	t.Cleanup(func() {
+		require.NoError(t, db.Close())
+	})
 	return db
 }
 
@@ -41,6 +43,8 @@ func MockTx(t *testing.T) (*sqlx.DB, *sqlx.Tx) {
 	tx, err := db.Beginx()
 	require.NoError(t, err)
 
-	t.Cleanup(func() { tx.Commit() })
+	t.Cleanup(func() {
+		require.NoError(t, tx.Commit())
+	})
 	return db, tx
 }

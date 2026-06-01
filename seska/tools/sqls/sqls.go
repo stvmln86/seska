@@ -2,7 +2,7 @@
 package sqls
 
 // Params is the default always-on database DSN connection string parameters.
-const Params = "?_foreign_keys=on&_journal_mode=wal&_synchronous=full"
+const Params = "?_foreign_keys=on&_journal_mode=wal&_synchronous=full&_busy_timeout=5000"
 
 // Schema is the default first-run database schema.
 const Schema = `
@@ -20,9 +20,7 @@ const Schema = `
 		init integer not null default (unixepoch()),
 		note integer not null references Notes(id) on delete restrict,
 		body text    not null,
-		hash text    not null check (length(hash) = 43),
-
-		unique (note, hash)
+		hash text    not null check (length(hash) = 43)
 	) strict;
 
 	create index if not exists PageNotes on Pages(note);
