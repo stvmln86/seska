@@ -12,30 +12,30 @@ import (
 func TestCreate(t *testing.T) {
 	// setup
 	db := test.MockDB(t)
+	tx, _ := db.Beginx()
 
 	// success
-	note, err := Create(db, "name")
-	assert.Equal(t, db, note.DB)
+	note, err := Create(tx, "name", "body")
+	assert.Equal(t, tx, note.Tx)
 	assert.Equal(t, int64(3), note.ID)
 	assert.Equal(t, time.Now().Unix(), note.Init)
 	assert.Equal(t, "name", note.Name)
 	assert.Equal(t, "gqNTf_Dbzn7sNdae3DoYnubxfYLzU6VT-aqWywvjzok", note.Hash)
 	assert.NoError(t, err)
 
-	// confirm - database
-	var okay bool
-	err = db.Get(&okay, "select exists (select 1 from Notes where name='name')")
-	assert.True(t, okay)
+	// confirm - transaction
+	err = tx.Commit()
 	assert.NoError(t, err)
 }
 
 func TestGet(t *testing.T) {
 	// setup
 	db := test.MockDB(t)
+	tx, _ := db.Beginx()
 
 	// success
-	note, err := Get(db, "alpha")
-	assert.Equal(t, db, note.DB)
+	note, err := Get(tx, "alpha")
+	assert.Equal(t, tx, note.Tx)
 	assert.Equal(t, int64(1), note.ID)
 	assert.Equal(t, time.Now().Unix()-7200, note.Init)
 	assert.Equal(t, "alpha", note.Name)
@@ -43,15 +43,20 @@ func TestGet(t *testing.T) {
 	assert.NoError(t, err)
 
 	// failure - note does not exist
-	note, err = Get(db, "nope")
+	note, err = Get(tx, "nope")
 	assert.Nil(t, note)
 	assert.ErrorIs(t, err, sql.ErrNoRows)
+
+	// confirm - transaction
+	err = tx.Commit()
+	assert.NoError(t, err)
 }
 
 func TestExists(t *testing.T) {
 	// setup
 	db := test.MockDB(t)
-	note, _ := Get(db, "alpha")
+	tx, _ := db.Beginx()
+	note, _ := Get(tx, "alpha")
 
 	// success - true
 	okay, err := note.Exists()
@@ -59,10 +64,14 @@ func TestExists(t *testing.T) {
 	assert.NoError(t, err)
 
 	// setup
-	note = &Note{DB: db, ID: -1}
+	note = &Note{Tx: tx, ID: -1}
 
 	// success - false
 	okay, err = note.Exists()
 	assert.False(t, okay)
+	assert.NoError(t, err)
+
+	// confirm - transaction
+	err = tx.Commit()
 	assert.NoError(t, err)
 }
