@@ -40,5 +40,7 @@ func MockTx(t *testing.T) (*sqlx.DB, *sqlx.Tx) {
 	db := MockDB(t)
 	tx, err := db.Beginx()
 	require.NoError(t, err)
+
+	t.Cleanup(func() { tx.Commit() })
 	return db, tx
 }

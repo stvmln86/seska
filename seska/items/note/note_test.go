@@ -26,10 +26,6 @@ func TestCreate(t *testing.T) {
 	note, err := Create(tx, "name", "body")
 	assertNote(t, note, 3, 0, "name")
 	assert.NoError(t, err)
-
-	// confirm - transaction
-	err = tx.Commit()
-	assert.NoError(t, err)
 }
 
 func TestGet(t *testing.T) {
@@ -45,10 +41,6 @@ func TestGet(t *testing.T) {
 	note, err = Get(tx, "nope")
 	assert.Nil(t, note)
 	assert.ErrorIs(t, err, sql.ErrNoRows)
-
-	// confirm - transaction
-	err = tx.Commit()
-	assert.NoError(t, err)
 }
 
 func TestMatch(t *testing.T) {
@@ -59,10 +51,6 @@ func TestMatch(t *testing.T) {
 	notes, err := Match(tx, "ALPH")
 	assert.Len(t, notes, 1)
 	assertNote(t, notes[0], 1, 7200, "alpha")
-	assert.NoError(t, err)
-
-	// confirm - transaction
-	err = tx.Commit()
 	assert.NoError(t, err)
 }
 
@@ -82,9 +70,5 @@ func TestExists(t *testing.T) {
 	// success - false
 	okay, err = note.Exists()
 	assert.False(t, okay)
-	assert.NoError(t, err)
-
-	// confirm - transaction
-	err = tx.Commit()
 	assert.NoError(t, err)
 }

@@ -26,10 +26,6 @@ func TestCreate(t *testing.T) {
 	page, err := Create(tx, 1, "body")
 	assertPage(t, page, 4, 0, 1, "body")
 	assert.NoError(t, err)
-
-	// confirm - transaction
-	err = tx.Commit()
-	assert.NoError(t, err)
 }
 
 func TestLatest(t *testing.T) {
@@ -39,10 +35,6 @@ func TestLatest(t *testing.T) {
 	// success
 	page, err := Latest(tx, 1)
 	assertPage(t, page, 2, 5400, 1, "Alpha two.")
-	assert.NoError(t, err)
-
-	// confirm - transaction
-	err = tx.Commit()
 	assert.NoError(t, err)
 }
 
@@ -62,9 +54,5 @@ func TestExists(t *testing.T) {
 	// success - false
 	okay, err = page.Exists()
 	assert.False(t, okay)
-	assert.NoError(t, err)
-
-	// confirm - transaction
-	err = tx.Commit()
 	assert.NoError(t, err)
 }
