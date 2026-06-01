@@ -60,6 +60,10 @@ func TestMatch(t *testing.T) {
 	assert.Len(t, notes, 1)
 	assertNote(t, notes[0], 1, 7200, "alpha")
 	assert.NoError(t, err)
+
+	// confirm - transaction
+	err = tx.Commit()
+	assert.NoError(t, err)
 }
 
 func TestExists(t *testing.T) {
