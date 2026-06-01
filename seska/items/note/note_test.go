@@ -16,7 +16,7 @@ func TestCreate(t *testing.T) {
 	// success
 	note, err := Create(db, "name")
 	assert.Equal(t, db, note.DB)
-	assert.Equal(t, int64(4), note.ID)
+	assert.Equal(t, int64(3), note.ID)
 	assert.Equal(t, time.Now().Unix(), note.Init)
 	assert.Equal(t, "name", note.Name)
 	assert.Equal(t, "gqNTf_Dbzn7sNdae3DoYnubxfYLzU6VT-aqWywvjzok", note.Hash)
@@ -59,7 +59,7 @@ func TestExists(t *testing.T) {
 	assert.NoError(t, err)
 
 	// setup
-	db.MustExec("delete from Notes where id=?", 1)
+	note = &Note{DB: db, ID: -1}
 
 	// success - false
 	okay, err = note.Exists()

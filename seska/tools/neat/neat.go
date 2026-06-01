@@ -7,9 +7,9 @@ import (
 	"strings"
 )
 
-// Body returns a whitespace-trimmed newline-ended body string and its hash.
+// Body returns a whitespace-trimmed body string and its hash.
 func Body(body string) (string, string) {
-	body = strings.TrimSpace(body) + "\n"
+	body = strings.TrimSpace(body)
 	return body, Hash(body)
 }
 

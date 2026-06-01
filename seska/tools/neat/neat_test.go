@@ -9,8 +9,8 @@ import (
 func TestBody(t *testing.T) {
 	// success
 	body, hash := Body("\tBody.\n")
-	assert.Equal(t, "Body.\n", body)
-	assert.Equal(t, "RCYc4kLhuZ1Sx9Kky228taSrUHvtm5swMGKpafr-HR4", hash)
+	assert.Equal(t, "Body.", body)
+	assert.Equal(t, "UhslzEWGhOtQSnyIWtzNdIzy-XQp_4ChSIbQgE1iyGI", hash)
 }
 
 func TestHash(t *testing.T) {
