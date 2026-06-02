@@ -1,4 +1,4 @@
-// Package list implements the ListComm type and methods.
+// Package list implements the List type and methods.
 package list
 
 import (
@@ -14,7 +14,7 @@ type List struct {
 	Text string `arg:"" optional:"" help:""`
 }
 
-// Run executes the ListComm's command.
+// Run executes the List's command.
 func (c *List) Run(w io.Writer, tx *sqlx.Tx) error {
 	notes, err := note.Match(tx, c.Text)
 	if err != nil {
