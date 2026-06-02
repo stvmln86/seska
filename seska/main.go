@@ -8,8 +8,8 @@ import (
 	"os"
 
 	"github.com/alecthomas/kong"
+	"github.com/stvmln86/seska/seska/tools/clui"
 	"github.com/stvmln86/seska/seska/tools/dbse"
-	"github.com/stvmln86/seska/seska/tools/test"
 )
 
 type Seska struct {
@@ -24,16 +24,16 @@ func try(err error) {
 }
 
 func main() {
-	db, err := dbse.Open(":memory:") // temp
-	db.MustExec(test.MockData)       // temp
-	try(err)
-
 	core := new(Seska)
 	ktxt := kong.Parse(core,
 		kong.Name("seska"),
 		kong.Description("Stephen's Eternal Scrap Keeper Application."),
 		kong.ShortUsageOnError(),
 	)
+
+	path := clui.Path()
+	db, err := dbse.Open(path)
+	try(err)
 
 	tx, err := db.Beginx()
 	try(err)
