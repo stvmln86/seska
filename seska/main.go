@@ -2,12 +2,12 @@
 package main
 
 import (
-	"container/list"
 	"fmt"
 	"io"
 	"os"
 
 	"github.com/alecthomas/kong"
+	"github.com/stvmln86/seska/seska/comms/list"
 	"github.com/stvmln86/seska/seska/tools/clui"
 	"github.com/stvmln86/seska/seska/tools/dbse"
 )
@@ -37,13 +37,13 @@ func main() {
 	path := clui.Path()
 	db, err := dbse.Open(path)
 	try(err)
-	defer try(db.Close())
 
 	tx, err := db.Beginx()
 	try(err)
-	defer try(tx.Commit())
 
 	ktxt.Bind(tx)
 	ktxt.BindTo(os.Stdout, (*io.Writer)(nil))
 	try(ktxt.Run())
+	try(tx.Commit())
+	try(db.Close())
 }
