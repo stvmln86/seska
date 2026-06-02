@@ -31,20 +31,16 @@ func MockDB(t *testing.T) *sqlx.DB {
 	_, err = db.Exec(sqls.Schema + MockData)
 	require.NoError(t, err)
 
-	t.Cleanup(func() {
-		require.NoError(t, db.Close())
-	})
+	t.Cleanup(func() { require.NoError(t, db.Close()) })
 	return db
 }
 
-// MockTx returns a mocked database and transaction.
-func MockTx(t *testing.T) (*sqlx.DB, *sqlx.Tx) {
+// MockTx returns a transaction from a mocked database.
+func MockTx(t *testing.T) *sqlx.Tx {
 	db := MockDB(t)
 	tx, err := db.Beginx()
 	require.NoError(t, err)
 
-	t.Cleanup(func() {
-		require.NoError(t, tx.Commit())
-	})
-	return db, tx
+	t.Cleanup(func() { require.NoError(t, tx.Rollback()) })
+	return tx
 }

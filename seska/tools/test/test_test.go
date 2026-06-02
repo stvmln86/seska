@@ -14,7 +14,6 @@ func TestMockDB(t *testing.T) {
 
 func TestMockTx(t *testing.T) {
 	// success
-	db, tx := MockTx(t)
-	assert.NotNil(t, db)
+	tx := MockTx(t)
 	assert.NotNil(t, tx)
 }

@@ -20,7 +20,7 @@ func assertNote(t *testing.T, note *Note, n_id, secs int64, name string) {
 
 func TestCreate(t *testing.T) {
 	// setup
-	_, tx := test.MockTx(t)
+	tx := test.MockTx(t)
 
 	// success
 	note, err := Create(tx, "name", "body")
@@ -30,7 +30,7 @@ func TestCreate(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	// setup
-	_, tx := test.MockTx(t)
+	tx := test.MockTx(t)
 
 	// success
 	note, err := Get(tx, "alpha")
@@ -45,7 +45,7 @@ func TestGet(t *testing.T) {
 
 func TestMatch(t *testing.T) {
 	// setup
-	_, tx := test.MockTx(t)
+	tx := test.MockTx(t)
 
 	// success
 	notes, err := Match(tx, "ALPH")
@@ -56,7 +56,7 @@ func TestMatch(t *testing.T) {
 
 func TestExists(t *testing.T) {
 	// setup
-	_, tx := test.MockTx(t)
+	tx := test.MockTx(t)
 	note, _ := Get(tx, "alpha")
 
 	// success - true
@@ -75,7 +75,7 @@ func TestExists(t *testing.T) {
 
 func TestLatest(t *testing.T) {
 	// setup
-	_, tx := test.MockTx(t)
+	tx := test.MockTx(t)
 	note, _ := Get(tx, "alpha")
 
 	// success

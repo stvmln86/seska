@@ -11,7 +11,7 @@ import (
 func TestRun(t *testing.T) {
 	// setup
 	w := bytes.NewBuffer(nil)
-	_, tx := test.MockTx(t)
+	tx := test.MockTx(t)
 	list := &List{Text: "ALPH"}
 
 	// success

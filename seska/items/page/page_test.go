@@ -20,7 +20,7 @@ func assertPage(t *testing.T, page *Page, p_id, secs, note int64, body string) {
 
 func TestCreate(t *testing.T) {
 	// setup
-	_, tx := test.MockTx(t)
+	tx := test.MockTx(t)
 
 	// success
 	page, err := Create(tx, 1, "body")
@@ -30,7 +30,7 @@ func TestCreate(t *testing.T) {
 
 func TestLatest(t *testing.T) {
 	// setup
-	_, tx := test.MockTx(t)
+	tx := test.MockTx(t)
 
 	// success
 	page, err := Latest(tx, 1)
@@ -40,7 +40,7 @@ func TestLatest(t *testing.T) {
 
 func TestExists(t *testing.T) {
 	// setup
-	_, tx := test.MockTx(t)
+	tx := test.MockTx(t)
 	page, _ := Latest(tx, 1)
 
 	// success - true
