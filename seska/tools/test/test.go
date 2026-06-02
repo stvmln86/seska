@@ -11,8 +11,8 @@ import (
 	"github.com/stvmln86/seska/seska/tools/sqls"
 )
 
-// mockData is additional database data for unit testing.
-const mockData = `
+// MockData is additional database data for unit testing.
+const MockData = `
 	insert into Notes (init, name, hash) values
 		(unixepoch()-7200, 'alpha', 'jtP2rWhblZ6tcCJRjhr3bNgW-OjsfM3aHtQBjo8iI_g'),
 		(unixepoch()-3600, 'bravo', '8USmkH3EKE0fn-an2bn_U8AsHQe6aPJNQT1_9_dXp4I');
@@ -28,7 +28,7 @@ func MockDB(t *testing.T) *sqlx.DB {
 	db, err := dbse.Open(":memory:")
 	require.NoError(t, err)
 
-	_, err = db.Exec(sqls.Schema + mockData)
+	_, err = db.Exec(sqls.Schema + MockData)
 	require.NoError(t, err)
 
 	t.Cleanup(func() {
