@@ -2,42 +2,44 @@
 package main
 
 import (
+	"container/list"
+	"fmt"
 	"io"
 	"os"
 
 	"github.com/alecthomas/kong"
-	"github.com/stvmln86/seska/seska/comms/list"
 	"github.com/stvmln86/seska/seska/tools/dbse"
 	"github.com/stvmln86/seska/seska/tools/test"
 )
 
-type Core struct {
+type Seska struct {
 	List list.List `cmd:"" help:"list existing notes"`
 }
 
+func try(err error) {
+	if err != nil {
+		fmt.Printf("Error: %s.\n", err.Error())
+		os.Exit(1)
+	}
+}
+
 func main() {
-	ktxt := kong.Parse(
-		new(Core),
+	db, err := dbse.Open(":memory:") // temp
+	db.MustExec(test.MockData)       // temp
+	try(err)
+
+	core := new(Seska)
+	ktxt := kong.Parse(core,
 		kong.Name("seska"),
 		kong.Description("Stephen's Eternal Scrap Keeper Application."),
 		kong.ShortUsageOnError(),
 	)
 
-	db, err := dbse.Open(":memory:")
-	ktxt.FatalIfErrorf(err)
-	defer db.Close()
-
-	_, err = db.Exec(test.MockData)
-	ktxt.FatalIfErrorf(err)
-
 	tx, err := db.Beginx()
-	ktxt.FatalIfErrorf(err)
-	defer tx.Rollback()
+	try(err)
 
+	ktxt.Bind(tx)
 	ktxt.BindTo(os.Stdout, (*io.Writer)(nil))
-	err = ktxt.Run(tx)
-	ktxt.FatalIfErrorf(err)
-
-	err = tx.Commit()
-	ktxt.FatalIfErrorf(err)
+	try(ktxt.Run())
+	try(tx.Commit())
 }
