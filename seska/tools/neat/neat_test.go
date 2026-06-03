@@ -10,14 +10,8 @@ import (
 
 func TestBody(t *testing.T) {
 	// success
-	body, err := Body("\tBody.\n")
+	body := Body("\tBody.\n")
 	assert.Equal(t, "Body.", body)
-	assert.NoError(t, err)
-
-	// failure - empty body
-	body, err = Body("\n")
-	assert.Empty(t, body)
-	assert.ErrorIs(t, err, errs.EmptyBody)
 }
 
 func TestHash(t *testing.T) {
@@ -28,14 +22,8 @@ func TestHash(t *testing.T) {
 
 func TestName(t *testing.T) {
 	// success
-	name, err := Name("\tNAME\n")
+	name := Name("\tNAME\n")
 	assert.Equal(t, "name", name)
-	assert.NoError(t, err)
-
-	// failure - empty name
-	name, err = Name("\n")
-	assert.Empty(t, name)
-	assert.ErrorIs(t, err, errs.EmptyName)
 }
 
 func TestStrf(t *testing.T) {

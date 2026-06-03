@@ -1,4 +1,4 @@
-// Package neat implements data validation and conversion functions.
+// Package neat implements data sanitisation and conversion functions.
 package neat
 
 import (
@@ -10,14 +10,9 @@ import (
 	"github.com/stvmln86/seska/seska/tools/errs"
 )
 
-// Body returns a non-empty whitespace-trimmed body string.
-func Body(body string) (string, error) {
-	body = strings.TrimSpace(body)
-	if body == "" {
-		return "", errs.EmptyBody
-	}
-
-	return body, nil
+// Body returns a whitespace-trimmed body string.
+func Body(body string) string {
+	return strings.TrimSpace(body)
 }
 
 // Hash returns a base64-encoded SHA256 hash of a string.
@@ -26,14 +21,10 @@ func Hash(text string) string {
 	return base64.RawURLEncoding.EncodeToString(hash[:])
 }
 
-// Name returns a non-empty lowercase whitespace-trimmed name string
-func Name(name string) (string, error) {
+// Name returns a lowercase whitespace-trimmed name string.
+func Name(name string) string {
 	name = strings.TrimSpace(name)
-	if name == "" {
-		return "", errs.EmptyName
-	}
-
-	return strings.ToLower(name), nil
+	return strings.ToLower(name)
 }
 
 // Strf returns a datetime string from a Time object.
