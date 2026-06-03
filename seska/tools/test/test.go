@@ -14,8 +14,7 @@ import (
 // MockData is a map of mock database data for unit testing.
 var MockData = map[string]map[string]string{
 	"alpha": {
-		"body": "Alpha note.\n",
-		"flag": "",
+		"body": "Alpha note.",
 		"hash": "zZ/ACc3JXIMP0FffZsDDY9R29NrVNKISX9qTc9NX5wI=",
 		"init": strconv.FormatInt(time.Now().Unix(), 10),
 		"last": strconv.FormatInt(time.Now().Unix(), 10),

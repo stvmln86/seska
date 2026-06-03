@@ -14,8 +14,14 @@ var exitFunc func(int) = os.Exit
 // Database is an error for failed database operations.
 var Database = errors.New("database operation failed")
 
-// EmptyName is an error for empty name fields.
+// EmptyBody is an error for empty body strings.
+var EmptyBody = errors.New("body is empty")
+
+// EmptyName is an error for empty name strings.
 var EmptyName = errors.New("name is empty")
+
+// InvalidTime is an error for invalid time strings.
+var InvalidTime = errors.New("invalid time format")
 
 // Try prints a non-nil error and exits.
 func Try(w io.Writer, err error) {
