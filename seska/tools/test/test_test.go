@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestDB(t *testing.T) {
+func TestMockDB(t *testing.T) {
 	// success
-	db := DB(t)
+	db := MockDB(t)
 	assert.NotNil(t, db)
 }

@@ -11,8 +11,8 @@ import (
 	"go.etcd.io/bbolt"
 )
 
-// mockData is a map of mock database data for unit testing.
-var mockData = map[string]map[string]string{
+// MockData is a map of mock database data for unit testing.
+var MockData = map[string]map[string]string{
 	"alpha": {
 		"body": "Alpha note.\n",
 		"flag": "",
@@ -22,14 +22,14 @@ var mockData = map[string]map[string]string{
 	},
 }
 
-// DB returns a temporary database populated with mock data.
-func DB(t *testing.T) *bbolt.DB {
+// MockDB returns a temporary database populated with mock data.
+func MockDB(t *testing.T) *bbolt.DB {
 	dire := t.TempDir()
 	path := filepath.Join(dire, "bolt.db")
 	db, err := bbolt.Open(path, 0600, nil)
 	require.NoError(t, err)
 	require.NoError(t, db.Update(func(tx *bbolt.Tx) error {
-		for name, pairs := range mockData {
+		for name, pairs := range MockData {
 			buck, err := tx.CreateBucket([]byte(name))
 			require.NoError(t, err)
 
