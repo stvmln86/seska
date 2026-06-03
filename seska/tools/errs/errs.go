@@ -14,11 +14,8 @@ var exitFunc func(int) = os.Exit
 // Database is an error for failed database operations.
 var Database = errors.New("database operation failed")
 
-// EmptyBody is an error for empty body strings.
-var EmptyBody = errors.New("body is empty")
-
-// EmptyName is an error for empty name strings.
-var EmptyName = errors.New("name is empty")
+// Exists is an error for already existing notes.
+var Exists = errors.New("note already exists")
 
 // InvalidTime is an error for invalid time strings.
 var InvalidTime = errors.New("invalid time format")
