@@ -3,9 +3,7 @@ package test
 
 import (
 	"path/filepath"
-	"strconv"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/require"
 	"go.etcd.io/bbolt"
@@ -15,9 +13,9 @@ import (
 var MockData = map[string]map[string]string{
 	"alpha": {
 		"body": "Alpha note.",
-		"hash": "zZ/ACc3JXIMP0FffZsDDY9R29NrVNKISX9qTc9NX5wI=",
-		"init": strconv.FormatInt(time.Now().Unix(), 10),
-		"last": strconv.FormatInt(time.Now().Unix(), 10),
+		"hash": "wUbNdwPXVxhUClSw1w_nL01Xud_xfmmtuMnZeoyiFrY",
+		"init": "1970-01-01 00:00:00 UTC",
+		"last": "1970-01-01 01:00:00 UTC",
 	},
 }
 
