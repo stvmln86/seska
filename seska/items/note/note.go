@@ -18,9 +18,10 @@ type Note struct {
 
 // Create creates and returns a new Note.
 func Create(tx *sqlx.Tx, name, body string) (*Note, error) {
+	name = neat.Name(name)
+	hash := neat.Hash(name)
 	note := &Note{Tx: tx}
 	code := "insert into Notes (name, hash) values (?, ?) returning *"
-	name, hash := neat.Name(name)
 	if err := tx.Get(note, code, name, hash); err != nil {
 		return nil, err
 	}
@@ -34,9 +35,9 @@ func Create(tx *sqlx.Tx, name, body string) (*Note, error) {
 
 // Get returns an existing Note by name.
 func Get(tx *sqlx.Tx, name string) (*Note, error) {
+	name = neat.Name(name)
 	note := &Note{Tx: tx}
 	code := "select * from Notes where name=?"
-	name, _ = neat.Name(name)
 	if err := tx.Get(note, code, name); err != nil {
 		return nil, err
 	}

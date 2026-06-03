@@ -18,9 +18,10 @@ type Page struct {
 
 // Create creates and returns a new Page.
 func Create(tx *sqlx.Tx, note int64, body string) (*Page, error) {
+	body = neat.Body(body)
+	hash := neat.Hash(body)
 	page := &Page{Tx: tx}
 	code := "insert into Pages (note, body, hash) values (?, ?, ?) returning *"
-	body, hash := neat.Body(body)
 	if err := tx.Get(page, code, note, body, hash); err != nil {
 		return nil, err
 	}

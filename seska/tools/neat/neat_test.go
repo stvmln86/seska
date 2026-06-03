@@ -8,9 +8,8 @@ import (
 
 func TestBody(t *testing.T) {
 	// success
-	body, hash := Body("\tBody.\n")
+	body := Body("\tBody.\n")
 	assert.Equal(t, "Body.", body)
-	assert.Equal(t, "UhslzEWGhOtQSnyIWtzNdIzy-XQp_4ChSIbQgE1iyGI", hash)
 }
 
 func TestHash(t *testing.T) {
@@ -27,7 +26,6 @@ func TestLike(t *testing.T) {
 
 func TestName(t *testing.T) {
 	// success
-	name, hash := Name("\tNAME\n")
+	name := Name("\tNAME\n")
 	assert.Equal(t, "name", name)
-	assert.Equal(t, "gqNTf_Dbzn7sNdae3DoYnubxfYLzU6VT-aqWywvjzok", hash)
 }

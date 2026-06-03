@@ -7,10 +7,9 @@ import (
 	"strings"
 )
 
-// Body returns a whitespace-trimmed body string and its hash.
-func Body(body string) (string, string) {
-	body = strings.TrimSpace(body)
-	return body, Hash(body)
+// Body returns a whitespace-trimmed body string.
+func Body(body string) string {
+	return strings.TrimSpace(body)
 }
 
 // Hash returns a base64-encoded SHA256 hash of a string.
@@ -25,9 +24,8 @@ func Like(text string) string {
 	return "%" + esca.Replace(text) + "%"
 }
 
-// Name returns a lowercase whitespace-trimmed name string and its hash.
-func Name(name string) (string, string) {
+// Name returns a lowercase whitespace-trimmed name string.
+func Name(name string) string {
 	name = strings.TrimSpace(name)
-	name = strings.ToLower(name)
-	return name, Hash(name)
+	return strings.ToLower(name)
 }
