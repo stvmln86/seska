@@ -25,10 +25,10 @@ func Create(db *bbolt.DB, name, body string) (*Note, error) {
 	name = neat.Name(name)
 	okay, err := bolt.Exists(db, name)
 	switch {
-	case okay:
-		return nil, errs.Exists
 	case err != nil:
 		return nil, errs.Database
+	case okay:
+		return nil, errs.Exists
 	}
 
 	body = neat.Body(body)
@@ -51,10 +51,10 @@ func Get(db *bbolt.DB, name string) (*Note, error) {
 	name = neat.Name(name)
 	pairs, err := bolt.Get(db, name)
 	switch {
-	case pairs == nil:
-		return nil, nil
 	case err != nil:
 		return nil, err
+	case pairs == nil:
+		return nil, nil
 	}
 
 	return &Note{
